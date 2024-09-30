@@ -64,7 +64,7 @@ public:
     Node *node = head;
     unsigned size = 0;
 
-    while (node != NULL) {
+    while (node->next != NULL) {
       size++;
       node = node->next;
     }
