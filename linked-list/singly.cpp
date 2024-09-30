@@ -40,6 +40,19 @@ public:
 
   void display() {
 
+  unsigned size() {
+    Node *node = head;
+    unsigned size = 0;
+
+    while (node != NULL) {
+      size++;
+      node = node->next;
+    }
+    delete node;
+
+    return size;
+  }
+
     std::cout << std::endl << "\033[34m";
 
     Node *node = head;
