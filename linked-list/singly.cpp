@@ -11,14 +11,14 @@ class List {
   Node *head;
 
 public:
-  List() : head(nullptr) {}
+  List() : head(NULL) {}
 
   void append(int data) {
     Node *tmp = new Node;
     tmp->data = data;
 
     // since tmp is the last node its next should be null
-    tmp->next = nullptr;
+    tmp->next = NULL;
 
     // check if head is null
     // if it is then assign tmp node to head
@@ -35,10 +35,30 @@ public:
     }
 
     last->next = tmp;
+
+    // delete tmp;
     return;
   }
 
-  void display() {
+  void remove(int index) {
+    // find the node to delete
+    Node *node = head;
+    int idx = 0;
+
+    while (node != NULL) {
+      if (idx != index) {
+        idx++;
+        node = node->next;
+      } else {
+        break; // node found
+      }
+    }
+
+    // delete the node
+    std::cout << node->data << std::endl;
+
+    delete node;
+  }
 
   unsigned size() {
     Node *node = head;
@@ -53,6 +73,7 @@ public:
     return size;
   }
 
+  void display() {
     std::cout << std::endl << "\033[34m";
 
     Node *node = head;
@@ -62,7 +83,9 @@ public:
       node = node->next;
     }
 
-    std::cout << "nullptr"
+    // delete node;
+
+    std::cout << "NULL"
               << "\033[0m" << std::endl;
   }
 };
@@ -71,7 +94,7 @@ int main() {
   List list;
 
   int choice;
-  int data;
+  int input;
 
   while (true) {
     std::cout << "\nSelect option\n"
@@ -93,18 +116,26 @@ int main() {
 
     case 2:
       std::cout << "Enter data: ";
-      std::cin >> data;
+      std::cin >> input;
 
-      list.append(data);
+      list.append(input);
       break;
 
     case 3:
-      std::cout << "TODO: not implemented\n";
+      std::cout << "Enter index: ";
+      std::cin >> input;
+
+      if (input > list.size()) {
+        std::cerr << "Index exceeds list size" << std::endl;
+        break;
+      }
+
+      list.remove(input);
       break;
 
     default:
 
-      std::cout << "Invalid choice. Try again." << std::endl;
+      std::cerr << "Invalid choice. Try again." << std::endl;
     }
   }
 
