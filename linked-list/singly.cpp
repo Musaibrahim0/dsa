@@ -1,46 +1,52 @@
-#include <cstddef>
 #include <iostream>
 
-class List {
+// Color code for output
+const std::string RED = "\033[91m";
+const std::string BLUE = "\033[34m";
+const std::string RESET = "\033[0m";
 
-  struct Node {
+// A class to represent linked list
+class List {
+  struct Node { // Each node in the list
     int data;
     Node *next;
-  };
-
-  Node *head;
+  } *head;
 
 public:
   List() : head(NULL) {}
 
-  void append(int data) {
-    Node *tmp = new Node;
-    tmp->data = data;
+  void insertAtHead(int data) {}
 
-    // since tmp is the last node its next should be null
-    tmp->next = NULL;
+  void insertAtIndex(int data) {}
 
-    // check if head is null
-    // if it is then assign tmp node to head
+  void insertAtTail(int data) {
+    Node *newNode = new Node;
+    newNode->data = data;
+
+    // since newNode would be the last node
+    newNode->next = NULL;
+
+    // in case list is empty
     if (this->head == NULL) {
-      this->head = tmp;
+      this->head = newNode;
       return;
     }
 
-    // if it is not then traverse till the end of list and assign the last node
-    // pointer to tmp
+    // find the last node
     Node *last = head;
     while (last->next != NULL) {
       last = last->next;
     }
 
-    last->next = tmp;
-
-    // delete tmp;
-    return;
+    // update the current tail with new
+    last->next = newNode;
   }
 
-  void remove(int index) {
+  void deleteFromTail(int index) {
+    if (index > this->getSize()) {
+      std::cerr << RED << "Index out of bound\n" << RESET;
+    }
+
     // find the node to delete
     Node *node = head;
     int idx = 0;
@@ -54,13 +60,12 @@ public:
       }
     }
 
-    // delete the node
-    std::cout << node->data << std::endl;
+    // TODO: delete the node
 
     delete node;
   }
 
-  unsigned size() {
+  unsigned getSize() {
     Node *node = head;
     unsigned size = 0;
 
@@ -74,7 +79,8 @@ public:
   }
 
   void display() {
-    std::cout << std::endl << "\033[34m";
+    std::system("clear");
+    std::cout << std::endl << BLUE;
 
     Node *node = head;
 
@@ -83,30 +89,33 @@ public:
       node = node->next;
     }
 
-    // delete node;
+    delete node;
 
-    std::cout << "NULL"
-              << "\033[0m" << std::endl;
+    std::cout << "NULL" << RESET << std::endl;
   }
 };
 
 int main() {
   List list;
 
-  int choice;
   int input;
 
   while (true) {
-    std::cout << "\nSelect option\n"
+    std::cout << "\nSelect an option\n"
               << "1. Display list\n"
-              << "2. Append node\n"
-              << "3. Delete node\n"
+              << "2. Insert at head\n"
+              << "3. Insert in middle\n"
+              << "4. Insert at tail\n"
+              << "5. Delete from head\n"
+              << "6. Delete from middle\n"
+              << "7. Delete from tail\n"
+              << "8. Search item\n"
               << "0. Exit\n"
               << "Enter choice: ";
 
-    std::cin >> choice;
+    std::cin >> input;
 
-    switch (choice) {
+    switch (input) {
     case 0:
       return 0;
 
@@ -115,27 +124,41 @@ int main() {
       break;
 
     case 2:
-      std::cout << "Enter data: ";
-      std::cin >> input;
-
-      list.append(input);
+      std::cerr << RED << "Not implemented yet!\n" << RESET;
       break;
 
     case 3:
+      std::cerr << RED << "Not implemented yet!\n" << RESET;
+      break;
+
+    case 4:
+      std::cout << "Enter data: ";
+      std::cin >> input;
+
+      list.insertAtTail(input);
+      break;
+
+    case 5:
+      std::cerr << RED << "Not implemented yet!\n" << RESET;
+      break;
+
+    case 6:
+      std::cerr << RED << "Not implemented yet!\n" << RESET;
+      break;
+
+    case 7:
       std::cout << "Enter index: ";
       std::cin >> input;
 
-      if (input > list.size()) {
-        std::cerr << "Index exceeds list size" << std::endl;
-        break;
-      }
+      list.deleteFromTail(input);
+      break;
 
-      list.remove(input);
+    case 8:
+      std::cerr << RED << "Not implemented yet!\n" << RESET;
       break;
 
     default:
-
-      std::cerr << "Invalid choice. Try again." << std::endl;
+      std::cerr << RED << input << "is not a valid choice" << std::endl << RESET;
     }
   }
 
