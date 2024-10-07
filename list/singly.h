@@ -92,22 +92,28 @@ public:
   }
 
   void remove_tail() {
-    if (head == nullptr)
-      return; // Empty list
+    if (head == nullptr) return;
 
     if (head->next == nullptr) {
+      // Only one node in the list
       delete head;
       head = nullptr;
     } else {
       Node *current = head;
-      while (current->next->next != nullptr) {
+      Node *previous = nullptr;
+
+
+      while (current->next != nullptr) {
+        previous = current;
         current = current->next;
       }
-      delete current->next;
-      current->next = nullptr;
+
+      delete current;
+      previous->next = nullptr;
     }
     size--;
   }
+
   void remove_index(unsigned position) {
     if (position >= size)
       return; // Out of bounds
@@ -130,10 +136,12 @@ public:
 
   long int search(T data) {
     Node *current = head;
+    long int index = 0;
     while (current != nullptr) {
       if (current->data == data) {
-        return current->data;
+        return index;
       }
+      index++;
     }
     return -1;
   }
